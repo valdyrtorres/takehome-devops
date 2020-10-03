@@ -1,0 +1,12 @@
+{
+  "66ec51ac-72ea-479d-8b5f-d99eede929f0": {
+    "sub": "jose@silva.com",
+    "name": "José da Silva",
+    "scopes": "patriota"
+  },
+  "2974ef88-cd63-4418-95cd-106c616fd08f": {
+    "sub": "jeremias@nascimento.com",
+    "name": "Jeremias José do Nascimento",
+    "scopes": "patriota premium"
+  }
+}
