@@ -1,0 +1,26 @@
+{
+  "name": "feed",
+  "version": "0.1.0",
+  "description": "Feed server for Brasil Paralelo",
+  "main": "index.js",
+  "scripts": {
+    "watch": "shadow-cljs watch app",
+    "compile": "shadow-cljs compile app",
+    "release": "shadow-cljs release app",
+    "start": "node ./target/main.js"
+  },
+  "keywords": [],
+  "devDependencies": {
+    "shadow-cljs": "2.9.8"
+  },
+  "dependencies": {
+    "concat-stream": "^2.0.0",
+    "content-type": "^1.0.4",
+    "cookies": "^0.8.0",
+    "lru": "^3.1.0",
+    "nodemon": "^2.0.4",
+    "random-bytes": "^1.0.0",
+    "xmlhttprequest": "^1.8.0",
+    "xregexp": "^4.3.0"
+  }
+}
