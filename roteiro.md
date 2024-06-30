@@ -87,3 +87,10 @@ docker build -t feed-service:latest .
 docker run -p 3000:3000 feed-service:latest
 -------------------------------------------------------------------------
 4 - criar a rede e docker-compose para os serviços se enxergarem entre si
+4.1 - criar a rede BP:
+docker network create rede_bp
+
+4.2 - criação do docker-compose.yml:
+Tive que criar para testar a dockerização das duas aplicações e verificar se elas respondem. O uso do docker-compose facilita a subida dos serviços para eles se enxergarem.
+4.2.1 - criação do Dockerfile.auth e Dockerfile.feed. São praticamente iguais aos originais exceto o apontamento para os diretórios auth e feed respectivamente já que estão juntos no mesmo diretório do docker-compose.yml
+-------------------------------------------------------------------------
