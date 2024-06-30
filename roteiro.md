@@ -25,7 +25,7 @@ kubectl get nodes
 --------------------------------------------------------------------------------------
 2 - Dockerização do serviço de autenticação:
 
-Criação do Dockerfile:
+2.1 - Criação do Dockerfile:
 
 #####################################################################
 # Dockerfile para o serviço de autenticação
@@ -50,5 +50,40 @@ EXPOSE 8037
 CMD ["pipenv", "run", "python", "src/server.py"]
 #####################################################################
 
-Criada a imagem, testar com:
+2.2 - Construir a imagem Docker:
+docker build -t auth-service:latest .
+
+2.3 Criada a imagem, testar com:
 docker run -p 8037:8037 auth-service:latest
+--------------------------------------------------------------------------------------
+3 - Dockerização do serviço de feed em javascrip usando o nodejs
+3.1 - Criação do Dockerfile:
+
+#####################################################################
+# Dockerfile para o serviço de feed (conteúdo)
+# Dockerfile para o serviço de conteúdo
+FROM node:14
+
+WORKDIR /feed
+
+COPY package*.json ./
+RUN npm install
+RUN npm run release
+
+COPY . .
+
+EXPOSE 3000
+
+# Definir a variável de ambiente e o comando de execução
+ENV USERINFO_URL=http://localhost:8037/api/userinfo
+
+CMD ["npm", "run", "start"]
+#####################################################################
+
+3.2 - Construir a imagem docker
+docker build -t feed-service:latest .
+
+3.3 Criada a imagem, testar com:
+docker run -p 3000:3000 feed-service:latest
+-------------------------------------------------------------------------
+4 - criar a rede e docker-compose para os serviços se enxergarem entre si
