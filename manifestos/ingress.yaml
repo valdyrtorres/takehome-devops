@@ -1,12 +1,13 @@
 apiVersion: networking.k8s.io/v1
 kind: Ingress
 metadata:
-  name: host-ingress
+  name: bp-ingress
+  namespace: namespace-bp
   annotations:
-    nginx.ingress.kubernetes.io/rewrite-target: /$1
+    nginx.ingress.kubernetes.io/rewrite-target: /
 spec:
   rules:
-    - host: localhost
+    - host: auth-bp-host
       http:
         paths:
           - path: /
@@ -16,6 +17,9 @@ spec:
                 name: auth-service
                 port:
                   number: 8037
+    - host: feed-bp-host
+      http:
+        paths:
           - path: /
             pathType: Prefix
             backend:

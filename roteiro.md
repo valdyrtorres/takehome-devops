@@ -119,3 +119,15 @@ kubectl apply -f manifestos/ingress.yaml
 curl -H "Authorization: Bearer 66ec51ac-72ea-479d-8b5f-d99eede929f0" -v feed-service:3000/feed/patriota
 curl -H "Authorization: Bearer 66ec51ac-72ea-479d-8b5f-d99eede929f0" -v localhost/feed/premium
 
+
+9 - TROUBLESHOOTING:
+curl -H "Authorization: Bearer 66ec51ac-72ea-479d-8b5f-d99eede929f0" -v http://10.244.1.9:3000/feed/patriota
+curl -H "Authorization: Bearer 66ec51ac-72ea-479d-8b5f-d99eede929f0" -v http://10.244.1.9:3000/feed/premium
+
+curl -H "Authorization: Bearer 66ec51ac-72ea-479d-8b5f-d99eede929f0" -v http://10.244.1.8:8037/api/userinfo
+
+kubectl get services -n namespace-bp
+kubectl get pods -n namespace-bp
+kubectl exec -it auth-deployment-54d46f6765-thnwg -n namespace-bp -- /bin/bash 
+kubectl exec -it feed-deployment-8f7959d68-wv7qs -n namespace-bp -- /bin/bash 
+kubectl describe pod auth-deployment-54d46f6765-thnwg -n namespace-bp

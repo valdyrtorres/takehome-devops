@@ -2,18 +2,22 @@ apiVersion: apps/v1
 kind: Deployment
 metadata:
   name: feed-deployment
+  namespace: namespace-bp
 spec:
   replicas: 1
   selector:
     matchLabels:
-      app: feed
+      app: feed-service
   template:
     metadata:
       labels:
-        app: feed
+        app: feed-service
     spec:
       containers:
-      - name: feed
+      - name: feed-service
         image: "valdyrtorres/feed-service:v1.0"
         ports:
         - containerPort: 3000
+        env:
+        - name: USERINFO_URL
+          value: "http://auth-service:8037/api/userinfo"

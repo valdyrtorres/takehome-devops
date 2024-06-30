@@ -1,0 +1,23 @@
+LISTANDO:
+kubectl get ingresses -n default
+kubectl get services -n default
+kubectl get deployments -n default
+
+-----
+kubectl delete ingresses --all -n default
+kubectl delete services --all -n default
+kubectl delete deployments --all -n default
+
+Comandos gerais:
+kubectl get services -n namespace-bp
+
+### Resumo dos Comandos
+
+| Ação                              | Comando                                                                                       |
+|-----------------------------------|-----------------------------------------------------------------------------------------------|
+| Listar pods                       | `kubectl get pods -n namespace-bp`                                                            |
+| Descrever um pod                  | `kubectl describe pod <pod-name> -n namespace-bp`                                             |
+| Visualizar logs de um pod         | `kubectl logs <pod-name> -n namespace-bp`                                                     |
+| Executar um comando em um pod     | `kubectl exec -it <pod-name> -n namespace-bp -- <command>`                                    |
+| Encaminhar portas de um pod       | `kubectl port-forward pod/<pod-name> <local-port>:<pod-port> -n namespace-bp`                 |
+| Copiar arquivos para/dentro de um pod | `kubectl cp <local-file-path> <pod-name>:<remote-file-path> -n namespace-bp` / `kubectl cp <pod-name>:<remote-file-path> <local-file-path> -n namespace-bp` |
