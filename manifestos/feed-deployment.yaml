@@ -1,0 +1,19 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: feed-deployment
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: feed
+  template:
+    metadata:
+      labels:
+        app: feed
+    spec:
+      containers:
+      - name: feed
+        image: "valdyrtorres/feed-service:v1.0"
+        ports:
+        - containerPort: 3000

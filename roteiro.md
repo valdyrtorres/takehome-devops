@@ -55,6 +55,8 @@ docker build -t auth-service:latest .
 
 2.3 Criada a imagem, testar com:
 docker run -p 8037:8037 auth-service:latest
+NOTA: carregar a imagem no cluster kind
+kind load docker-image auth-service:latest --name brasil-paralelo
 --------------------------------------------------------------------------------------
 3 - Dockerização do serviço de feed em javascrip usando o nodejs
 3.1 - Criação do Dockerfile:
@@ -85,6 +87,8 @@ docker build -t feed-service:latest .
 
 3.3 Criada a imagem, testar com:
 docker run -p 3000:3000 feed-service:latest
+NOTA: carregar a imagem no cluster kind
+kind load docker-image feed-service:latest --name brasil-paralelo
 -------------------------------------------------------------------------
 4 - criar a rede e docker-compose para os serviços se enxergarem entre si
 4.1 - criar a rede BP:
@@ -94,3 +98,24 @@ docker network create rede_bp
 Tive que criar para testar a dockerização das duas aplicações e verificar se elas respondem. O uso do docker-compose facilita a subida dos serviços para eles se enxergarem.
 4.2.1 - criação do Dockerfile.auth e Dockerfile.feed. São praticamente iguais aos originais exceto o apontamento para os diretórios auth e feed respectivamente já que estão juntos no mesmo diretório do docker-compose.yml
 -------------------------------------------------------------------------
+
+5 - Criação dos manifestos kubernetes, dos deployments, services e ingress
+auth-deployment.yaml
+auth-service.yaml
+feed-deployment.yaml
+feed-service.yaml
+ingress.yml
+
+6 - Aplicar os manifestos no cluster brasil-paralelo
+kubectl apply -f manifestos/auth-deployment.yaml
+kubectl apply -f manifestos/auth-service.yaml
+kubectl apply -f manifestos/feed-deployment.yaml
+kubectl apply -f manifestos/feed-service.yaml
+
+7 - Aplicar o ingress
+kubectl apply -f manifestos/ingress.yaml
+
+8 - Testar os serviços
+curl -H "Authorization: Bearer 66ec51ac-72ea-479d-8b5f-d99eede929f0" -v feed-service:3000/feed/patriota
+curl -H "Authorization: Bearer 66ec51ac-72ea-479d-8b5f-d99eede929f0" -v localhost/feed/premium
+
