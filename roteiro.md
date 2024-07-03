@@ -1,25 +1,14 @@
 NOTA: Os manisfestos estão armazenados no diretório "manifestos" na raiz
 --------------------------------------------------------------------------------------
 
-1 - Primeiro criar o cluster brasil-paralelo:
-Obs: Estou usando o kind
-criei o manifesto yaml com o nome kind-bp-config.yaml com o conteúdo abaixo:
-
-kind: Cluster
-apiVersion: kind.x-k8s.io/v1alpha4
-name: brasil-paralelo
-nodes:
-- role: control-plane
-- role: worker
+1 - Usando o minikube
+Iniciar o Minikube utilizando o driver Docker:
+minikube start --driver=docker
 
 cd manifestos
-kind create cluster --config cluster/kind-bp-config.yaml
-
-Conferir com o kind:
-kind get clusters
 
 Conferir com o kubectl:
-kubectl cluster-info --context kind-brasil-paralelo
+kubectl cluster-info
 Verificar os nodes do cluster
 kubectl get nodes
 --------------------------------------------------------------------------------------
@@ -116,18 +105,8 @@ kubectl apply -f manifestos/feed-service.yaml
 kubectl apply -f manifestos/ingress.yaml
 
 8 - Testar os serviços
-curl -H "Authorization: Bearer 66ec51ac-72ea-479d-8b5f-d99eede929f0" -v feed-service:3000/feed/patriota
-curl -H "Authorization: Bearer 66ec51ac-72ea-479d-8b5f-d99eede929f0" -v localhost/feed/premium
-
-
-9 - TROUBLESHOOTING:
-curl -H "Authorization: Bearer 66ec51ac-72ea-479d-8b5f-d99eede929f0" -v http://10.244.1.9:3000/feed/patriota
-curl -H "Authorization: Bearer 66ec51ac-72ea-479d-8b5f-d99eede929f0" -v http://10.244.1.9:3000/feed/premium
-
-curl -H "Authorization: Bearer 66ec51ac-72ea-479d-8b5f-d99eede929f0" -v http://10.244.1.8:8037/api/userinfo
-
-kubectl get services -n namespace-bp
-kubectl get pods -n namespace-bp
-kubectl exec -it auth-deployment-54d46f6765-thnwg -n namespace-bp -- /bin/bash 
-kubectl exec -it feed-deployment-8f7959d68-wv7qs -n namespace-bp -- /bin/bash 
-kubectl describe pod auth-deployment-54d46f6765-thnwg -n namespace-bp
+curl -H "Authorization: Bearer 66ec51ac-72ea-479d-8b5f-d99eede929f0" -v http://feed-bp-host/feed/patriota
+curl -H "Authorization: Bearer 66ec51ac-72ea-479d-8b5f-d99eede929f0" -v http://feed-bp-host/feed/premium
+OBS: Para facilitar, criei as entradas no hosts:
+echo "$(minikube ip) auth-bp-host" | sudo tee -a /etc/hosts
+echo "$(minikube ip) feed-bp-host" | sudo tee -a /etc/hosts

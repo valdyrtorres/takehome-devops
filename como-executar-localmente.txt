@@ -1,0 +1,43 @@
+NOTA: Os manisfestos estão armazenados no diretório "manifestos" na raiz
+--------------------------------------------------------------------------------------
+
+1 - Usando o minikube
+Iniciar o Minikube utilizando o driver Docker:
+minikube start --driver=docker
+
+Conferir com o kubectl:
+kubectl cluster-info
+Verificar os nodes do cluster
+kubectl get nodes
+--------------------------------------------------------------------------------------
+2 - implantação dos manifestos kubernetes, dos deployments, services e ingress
+auth-deployment.yaml
+auth-service.yaml
+feed-deployment.yaml
+feed-service.yaml
+ingress.yml
+
+vá para o diretório dos manifestis com o comando:
+valdir@valdir-debian:~/devcode/desafios/brasilparalelo/takehome-devops$ cd manifestos
+
+3 - Aplicar os manifestos
+kubectl apply -f manifestos/auth-deployment.yaml
+kubectl apply -f manifestos/auth-service.yaml
+kubectl apply -f manifestos/feed-deployment.yaml
+kubectl apply -f manifestos/feed-service.yaml
+
+4 - Aplicar o manifesto do ingress
+kubectl apply -f manifestos/ingress.yaml
+
+8 - Testar os serviços
+curl -H "Authorization: Bearer 66ec51ac-72ea-479d-8b5f-d99eede929f0" -v http://feed-bp-host/feed/patriota
+curl -H "Authorization: Bearer 66ec51ac-72ea-479d-8b5f-d99eede929f0" -v http://feed-bp-host/feed/premium
+OBS: Para facilitar, criei as entradas no hosts:
+echo "$(minikube ip) auth-bp-host" | sudo tee -a /etc/hosts
+echo "$(minikube ip) feed-bp-host" | sudo tee -a /etc/hosts
+
+Extras: comandos para verificação:
+kubectl get ingress
+kubectl get pods
+kubectl exec -it feed-deployment-55d5799db4-7hggf -- /bin/bash
+
